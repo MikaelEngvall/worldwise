@@ -56,7 +56,6 @@ function App() {
 
                 <Route path="form" element={<Form />} />
               </Route>
-              <Route path="*" element={<PageNotFound />} />
             </Routes>
           </Suspense>
         </BrowserRouter>
