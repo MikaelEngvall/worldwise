@@ -5,6 +5,8 @@ import {
   useEffect,
   useReducer,
 } from "react";
+import City from "../models/City.js";
+import User from '../models/User.js';
 
 const BASE_URL = "http://localhost:9000";
 const CitiesContext = createContext();
@@ -93,21 +95,15 @@ function CitiesProvider({ children }) {
   );
 
   async function createCity(newCity) {
-    dispatch({ type: "loading" });
+    dispatch({ type: 'loading' });
     try {
-      const res = await fetch(`${BASE_URL}/cities/`, {
-        method: "POST",
-        body: JSON.stringify(newCity),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await res.json();
-      dispatch({ type: "city/created", payload: data });
+      const city = new City(newCity);
+      await city.save();
+      dispatch({ type: 'city/created', payload: city });
     } catch (error) {
       dispatch({
-        type: "rejected",
-        payload: "There was an error creating the city...",
+        type: 'rejected',
+        payload: 'There was an error creating the city...',
       });
     }
   }
